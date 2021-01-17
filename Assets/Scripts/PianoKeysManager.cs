@@ -5,7 +5,7 @@ using UnityEngine;
 public class PianoKeysManager : MonoBehaviour
 {
 	[Header("Musical Notes")]
-	public AudioClip[] lowOctave = new AudioClip[12];
+	public AudioClip[] lowOctave = new AudioClip[12]; // TODO: Low C# and low C are the same audio file. Find originals or re-record to resolve.
 	public AudioClip[] middleOctave = new AudioClip[12];
 	public AudioClip[] highOctave = new AudioClip[12];
 	public AudioClip[,] notes = new AudioClip[3, 12];
