@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     {
 		//StartCoroutine(PlayScale(0.5f));
 		//StartCoroutine(CycleColors(1f));
-		StartCoroutine(PlaySong(1f));
+		//StartCoroutine(PlaySong(1f));
 	}
 
 	public void PlayNote(int noteNumber)
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 		int octave = Convert.ToInt32(noteToPlay[0]);
 		int note = Convert.ToInt32(notesMapping[noteToPlay[1]]);
 		audioSource.clip = pianoKeysManager.notes[octave, note];
-		colorManager.UpdateColor(octave, note);
+		//colorManager.UpdateColor(octave, note);
 		audioSource.Play();
 	}
 
@@ -74,20 +74,6 @@ public class GameManager : MonoBehaviour
 			for (int j = 0; j < 12; j++)
 			{
 				audioSource.clip = pianoKeysManager.notes[i, j];
-				audioSource.Play();
-				yield return new WaitForSeconds(WaitTime);
-			}
-		}
-	}
-
-	IEnumerator CycleColors(float WaitTime)
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				colorManager.UpdateColor(i, j); 
-				audioSource.clip = pianoKeysManager.notes[i, j + 4]; // Starting more toward middle of the octave due to repeat audio files for low C/C#
 				audioSource.Play();
 				yield return new WaitForSeconds(WaitTime);
 			}

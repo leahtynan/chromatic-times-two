@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class ColorManager : MonoBehaviour
 {
-	public Image background; // Image just for testing the colors
-	private Color[,] colors = new Color[3, 3];
+	public OxManager oxManager;
+	private Color[,] colors = new Color[2, 4];
 	public Color[] darkColors;
-	public Color[] mediumColors;
 	public Color[] lightColors;
 
 	void Start()
 	{
 		LoadColors();
+		SetOxColors();
 	}
 
 	private void LoadColors()
@@ -22,18 +22,27 @@ public class ColorManager : MonoBehaviour
 		{
 			colors[0, i] = darkColors[i];
 		}
-		for (int i = 0; i < mediumColors.Length; i++)
-		{
-			colors[1, i] = mediumColors[i];
-		}
 		for (int i = 0; i < lightColors.Length; i++)
 		{
-			colors[2, i] = lightColors[i];
+			colors[1, i] = lightColors[i];
 		}
 	}
 
-	public void UpdateColor(int color, int shade)
+	public void ColorOx(OxViewer ox, int color, int shade)
     {
-		background.color = colors[color, shade];
+		ox.GetComponent<Image>().color = colors[color, shade];
+    }
+
+	public void SetOxColors()
+    {
+		int number = 0;
+		for(int i = 0; i < 2; i++)
+        {
+			for(int j = 0; j < 4; j++)
+            {
+				ColorOx(oxManager.oxen[number], i, j);
+				number++;
+            }
+        }
     }
 }
