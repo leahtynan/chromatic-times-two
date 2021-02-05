@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+	[Header("Song")]
+	// TODO: Songs will be stored elsewhere once the full architecture is planned
+	public string[] songNotes;
+
 	[Header("Musical Notes")]
 	public AudioSource audioSource;
 	public PianoKeysManager pianoKeysManager;
@@ -30,10 +34,38 @@ public class GameManager : MonoBehaviour
 	void Start()
     {
 		//StartCoroutine(PlayScale(0.5f));
-		StartCoroutine(CycleColors(1f));
+		//StartCoroutine(CycleColors(1f));
+		StartCoroutine(PlaySong(1f));
+	}
+
+	public void PlayNote(int noteNumber)
+	{
+		string[] noteToPlay = MapNoteToPlay(songNotes[noteNumber]);
+		int octave = Convert.ToInt32(noteToPlay[0]);
+		int note = Convert.ToInt32(notesMapping[noteToPlay[1]]);
+		audioSource.clip = pianoKeysManager.notes[octave, note];
+		colorManager.UpdateColor(octave, note);
+		audioSource.Play();
+	}
+
+	string[] MapNoteToPlay(string shortHand)
+	{
+		// Converts shorthand for note (e.g. 1-af, middle octave's A flat) into octave number and musical note
+		string[] mapping = shortHand.Split('-');
+		return mapping;
 	}
 
 	/*	The following are quick demos as proof of concept for iterating through music and color data structures */
+
+
+	IEnumerator PlaySong(float WaitTime)
+	{
+		for (int i = 0; i < songNotes.Length; i++)
+        {
+			PlayNote(i);
+			yield return new WaitForSeconds(WaitTime);
+		}
+	}
 
 	IEnumerator PlayScale(float WaitTime)
 	{
