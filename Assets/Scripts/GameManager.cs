@@ -13,23 +13,14 @@ public class GameManager : MonoBehaviour
 
 	[Header("Musical Notes")]
 	public AudioSource audioSource;
-	public PianoKeysManager pianoKeysManager;
+	public XylophoneKeysManager xylophoneKeysManager;
 	Dictionary<string, int> notesMapping = new Dictionary<string, int>()
 	{
 		{ "c", 0 },
-		{ "cs", 1 },
-		{ "d", 2 },
-		{ "ef", 3 },
-		{ "e", 4 },
-		{ "f", 5 },
-		{ "fs", 6 },
-		{ "g", 7 },
-		{ "af",8 },
-		{ "a", 9 },
-		{ "bf", 10 },
-		{ "b", 11 }
+		{ "d", 1 },
+		{ "ef", 2 },
+		{ "f", 3 },
 	};
-	// TODO: Won't need the whole scale for Year of the Ox, just 4 notes (TBD) - will remove unneeded notes later
 
 	[Header("Colors")]
 	public ColorManager colorManager;
@@ -45,7 +36,7 @@ public class GameManager : MonoBehaviour
 		string[] noteToPlay = MapNoteToPlay(songNotes[noteNumber]);
 		int octave = Convert.ToInt32(noteToPlay[0]);
 		int note = Convert.ToInt32(notesMapping[noteToPlay[1]]);
-		audioSource.clip = pianoKeysManager.notes[octave, note];
+		audioSource.clip = xylophoneKeysManager.notes[octave, note];
 		audioSource.Play();
 	}
 
@@ -61,6 +52,7 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < songNotes.Length; i++)
         {
 			PlayNote(i);
+			// TODO: Need to re-structure ox UI as a 2D array
 			//StartCoroutine(oxManager.oxen[row, column].Bump(WaitTime));
 			yield return new WaitForSeconds(WaitTime);
 		}
@@ -73,7 +65,7 @@ public class GameManager : MonoBehaviour
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				audioSource.clip = pianoKeysManager.notes[i, j];
+				audioSource.clip = xylophoneKeysManager.notes[i, j];
 				audioSource.Play();
 				StartCoroutine(oxManager.oxen[number].Bump(WaitTime));
 				yield return new WaitForSeconds(WaitTime * 2);

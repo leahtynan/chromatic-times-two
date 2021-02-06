@@ -29,8 +29,26 @@ public class OxViewer : MonoBehaviour
         Debug.Log("Bump animation complete");
     }
 
-    public void Sway()
+    public IEnumerator Sway(float WaitTime)
     {
         // TODO: Sway ox face left/right several cycles 
+        for(int i = 0; i < 5; i++)
+        {
+            StartCoroutine(SwayLeft(WaitTime));
+            yield return new WaitForSeconds(WaitTime); // TODO: Should be amount of time SwayLeft takes
+            StartCoroutine(SwayRight(WaitTime));
+            yield return new WaitForSeconds(WaitTime); // TODO: Should be amount of time SwayRight takes
+        }
     }
+
+    public IEnumerator SwayLeft(float WaitTime)
+    {
+        yield return new WaitForSeconds(WaitTime);
+    }
+
+    public IEnumerator SwayRight(float WaitTime)
+    {
+        yield return new WaitForSeconds(WaitTime);
+    }
+
 }
