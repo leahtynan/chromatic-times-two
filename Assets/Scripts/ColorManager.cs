@@ -30,7 +30,7 @@ public class ColorManager : MonoBehaviour
 
 	public void ColorOx(OxViewer ox, int color, int shade)
     {
-		ox.GetComponent<Image>().color = colors[color, shade];
+		ox.imageBase.color = colors[color, shade];
     }
 
 	public void SetOxColors()

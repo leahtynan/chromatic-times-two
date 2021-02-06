@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OxViewer : MonoBehaviour
 {
+    public Image imageBase;
+    public Image face;
+    public Sprite eyesOpen;
+    public Sprite eyesClosed;
 
     public IEnumerator Bump(float WaitTime)
 	{
