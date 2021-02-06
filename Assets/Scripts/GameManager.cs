@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour
 	
 	void Start()
     {
-		StartCoroutine(PlayScale(0.5f));
-		//StartCoroutine(PlaySong(1f));
+		//StartCoroutine(PlayScale(0.5f));
+		StartCoroutine(PlaySong(1f));
 	}
 
 	public void PlayNote(int noteNumber)
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
 		int note = Convert.ToInt32(notesMapping[noteToPlay[1]]);
 		audioSource.clip = xylophoneKeysManager.notes[octave, note];
 		audioSource.Play();
+		StartCoroutine(oxManager.oxGrid[octave, note].Bump(1f));
 	}
 
 	string[] MapNoteToPlay(string shortHand)
@@ -52,8 +53,6 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < songNotes.Length; i++)
         {
 			PlayNote(i);
-			// TODO: Need to re-structure ox UI as a 2D array
-			//StartCoroutine(oxManager.oxen[row, column].Bump(WaitTime));
 			yield return new WaitForSeconds(WaitTime);
 		}
 	}
@@ -67,7 +66,7 @@ public class GameManager : MonoBehaviour
 			{
 				audioSource.clip = xylophoneKeysManager.notes[i, j];
 				audioSource.Play();
-				StartCoroutine(oxManager.oxen[number].Bump(WaitTime));
+				StartCoroutine(oxManager.oxGrid[i, j].Bump(WaitTime));
 				yield return new WaitForSeconds(WaitTime * 2);
 				number++;
 			}
