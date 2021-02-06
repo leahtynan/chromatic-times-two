@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
 
 	[Header("Song")]
 	public string[] songNotes;
+	public AudioClip recordedSong;
+	private int notesPlayed = 0;
 
 	[Header("Musical Notes")]
 	public AudioSource audioSource;
@@ -27,7 +30,7 @@ public class GameManager : MonoBehaviour
 	
 	void Start()
     {
-		//StartCoroutine(PlayScale(0.5f));
+		StartCoroutine(PlayScale(0.5f));
 		StartCoroutine(PlaySong(1f));
 	}
 
@@ -50,10 +53,19 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator PlaySong(float WaitTime)
 	{
+		yield return new WaitForSeconds(8f); // Wait for scale to finish playing
 		for (int i = 0; i < songNotes.Length; i++)
         {
 			PlayNote(i);
 			yield return new WaitForSeconds(WaitTime);
+			notesPlayed++;
+			if(notesPlayed == songNotes.Length)
+            {
+				audioSource.clip = recordedSong;
+				audioSource.Play();
+				yield return new WaitForSeconds(audioSource.clip.length);
+				// TODO: Animate the oxen
+			}
 		}
 	}
 
