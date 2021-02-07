@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator PlaySong(float WaitTime)
 	{
-		yield return new WaitForSeconds(8f); // Wait for scale to finish playing
+		yield return new WaitForSeconds(10f); // Wait for scale to finish playing
 		for (int i = 0; i < songNotes.Length; i++)
         {
 			PlayNote(i);
@@ -63,14 +63,18 @@ public class GameManager : MonoBehaviour
             {
 				audioSource.clip = recordedSong;
 				audioSource.Play();
+				foreach(OxViewer ox in oxManager.oxen)
+                {
+					StartCoroutine(ox.SmileAndSway(1f));
+                }
 				yield return new WaitForSeconds(audioSource.clip.length);
-				// TODO: Animate the oxen
 			}
 		}
 	}
 
 	IEnumerator PlayScale(float WaitTime)
 	{
+		yield return new WaitForSeconds(2f); // Wait a moment so this doesn't start right away when the application starts
 		int number = 0;
 		for (int i = 0; i < 2; i++)
 		{

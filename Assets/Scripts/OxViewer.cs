@@ -12,6 +12,7 @@ public class OxViewer : MonoBehaviour
 
     public IEnumerator Bump(float WaitTime)
 	{
+        yield return new WaitForSeconds(WaitTime/4);
         Vector3 regularScale = this.transform.localScale;
         Vector3 bumpedUpScale = new Vector3(1.25f, 1.25f, 1.0f);
         float time = WaitTime/2;
@@ -23,7 +24,6 @@ public class OxViewer : MonoBehaviour
             yield return null;
         } while (currentTime <= time);
 		yield return new WaitForSeconds(WaitTime);
-		Debug.Log("Bumping down");
         currentTime = 0.0f;
         do
         {
@@ -31,29 +31,43 @@ public class OxViewer : MonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         } while (currentTime <= time);
-        Debug.Log("Bump animation complete");
     }
 
-    public IEnumerator Sway(float WaitTime)
+    public IEnumerator SmileAndSway(float WaitTime)
     {
-        // TODO: Sway ox face left/right several cycles 
-        for(int i = 0; i < 5; i++)
+        yield return new WaitForSeconds(WaitTime);
+        face.sprite = eyesClosed;
+        RectTransform rectTransform = this.GetComponent<RectTransform>();
+        // Sway right from center to right
+        for (int j = 0; j < 5; j++)
         {
-            StartCoroutine(SwayLeft(WaitTime));
-            yield return new WaitForSeconds(WaitTime); // TODO: Should be amount of time SwayLeft takes
-            StartCoroutine(SwayRight(WaitTime));
-            yield return new WaitForSeconds(WaitTime); // TODO: Should be amount of time SwayRight takes
+            rectTransform.Rotate(new Vector3(0, 0, -4));
+            yield return new WaitForSeconds(0.1f);
         }
-    }
-
-    public IEnumerator SwayLeft(float WaitTime)
-    {
-        yield return new WaitForSeconds(WaitTime);
-    }
-
-    public IEnumerator SwayRight(float WaitTime)
-    {
-        yield return new WaitForSeconds(WaitTime);
+        for (int i = 0; i < 4; i++)
+        {
+            // Sway left from right to left
+            for (int j = 0; j < 5; j++)
+            {
+                rectTransform.Rotate(new Vector3(0, 0, 8));
+                yield return new WaitForSeconds(0.1f);
+            } 
+            yield return new WaitForSeconds(WaitTime);
+            // Sway right from left to right
+            for (int j = 0; j < 5; j++)
+            {
+                rectTransform.Rotate(new Vector3(0, 0, -8));
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        // Sway left from right to center
+        // Sway left from right to left
+        for (int j = 0; j < 5; j++)
+        {
+            rectTransform.Rotate(new Vector3(0, 0, 4));
+            yield return new WaitForSeconds(0.1f);
+        }
+        face.sprite = eyesOpen;
     }
 
 }
