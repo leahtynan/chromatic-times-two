@@ -34,6 +34,14 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(PlaySong(1f));
 	}
 
+	void Update()
+    {
+		if (Input.GetKey("escape"))
+		{
+			Application.Quit();
+		}
+	}
+
 	public void PlayNote(int noteNumber)
 	{
 		string[] noteToPlay = MapNoteToPlay(songNotes[noteNumber]);
